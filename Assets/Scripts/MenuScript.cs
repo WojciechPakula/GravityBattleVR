@@ -75,8 +75,8 @@ public class MenuScript : MonoBehaviour {
         NetworkManager.instance.sendToServerToAll(new Q_HELLO { text = "komunikat" });
     }
 
-    private void OnDestroy()
+    /*private void OnDestroy()
     {
         NetworkManager.instance.kill();
-    }
+    }*/
 }

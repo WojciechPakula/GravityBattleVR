@@ -23,6 +23,7 @@ public abstract class Q_OBJECT
         if (type == "Q_JOIN_OK") { return JsonUtility.FromJson<Q_JOIN_OK>(json); }
         if (type == "Q_IM_ALIVE") { return JsonUtility.FromJson<Q_IM_ALIVE>(json); }
         if (type == "Q_IM_ALIVE_RESPONSE") { return JsonUtility.FromJson<Q_IM_ALIVE_RESPONSE>(json); }
+        if (type == "Q_SHOOT_PHOTON") { return JsonUtility.FromJson<Q_SHOOT_PHOTON>(json); }
 
         //na wypadek błędu
         Debug.Log("Q_OBJECT ERROR, Nieznany typ "+type.ToString());
@@ -142,5 +143,16 @@ public class Q_IM_ALIVE_RESPONSE : Q_OBJECT   //obiekt oznaczający że komputer
     {
         Debug.Log("Q_IM_ALIVE_RESPONSE done.");
         NetworkManager.instance.setServerTimeZero();
+    }
+}
+[Serializable]
+public class Q_SHOOT_PHOTON : Q_OBJECT   //obiekt oznaczający że komputer nie umarł
+{
+    public Vector3 position;
+    public Vector3 direction;
+    public override void executeQuery(QueuePack queuePack)
+    {
+        Debug.Log("Q_SHOOT_PHOTON done.");
+        PhotonEmitter.emitPhoton(position, direction);
     }
 }
