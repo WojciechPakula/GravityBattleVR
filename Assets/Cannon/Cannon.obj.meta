@@ -1,0 +1,221 @@
+fileFormatVersion: 2
+guid: 627318cc09ce3c541b0cee221a2d51de
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Barrels_Barrels
+    100002: Body_Body
+    100004: Bolts.001_Bolts.001
+    100006: Bolts_Bolts
+    100008: //RootNode
+    100010: Engine1_Engine1
+    100012: Engine2_Engine2
+    100014: EngineBody_EngineBody
+    100016: Latches_Latches
+    100018: Pads_Pads
+    100020: Wires_Wires
+    100022: WiresPort2_WiresPort2
+    100024: WiresPort_Group11942.001_WiresPort_Group11942.001
+    400000: Barrels_Barrels
+    400002: Body_Body
+    400004: Bolts.001_Bolts.001
+    400006: Bolts_Bolts
+    400008: //RootNode
+    400010: Engine1_Engine1
+    400012: Engine2_Engine2
+    400014: EngineBody_EngineBody
+    400016: Latches_Latches
+    400018: Pads_Pads
+    400020: Wires_Wires
+    400022: WiresPort2_WiresPort2
+    400024: WiresPort_Group11942.001_WiresPort_Group11942.001
+    2100000: Barrels_BarrelsMat
+    2100002: Body_BodyMat
+    2100004: Bolts.001_Bolts.001Mat
+    2100006: Bolts_BoltsMat
+    2100008: Engine1_Engine1Mat
+    2100010: Engine2_Engine2Mat
+    2100012: EngineBody_EngineBodyMat
+    2100014: Latches_LatchesMat
+    2100016: Pads_PadsMat
+    2100018: Wires_WiresMat
+    2100020: WiresPort2_WiresPort2Mat
+    2100022: WiresPort_Group11942.001_WiresPort_Group11942.001Mat
+    2300000: Barrels_Barrels
+    2300002: Body_Body
+    2300004: Bolts.001_Bolts.001
+    2300006: Bolts_Bolts
+    2300008: Engine1_Engine1
+    2300010: Engine2_Engine2
+    2300012: EngineBody_EngineBody
+    2300014: Latches_Latches
+    2300016: Pads_Pads
+    2300018: Wires_Wires
+    2300020: WiresPort2_WiresPort2
+    2300022: WiresPort_Group11942.001_WiresPort_Group11942.001
+    3300000: Barrels_Barrels
+    3300002: Body_Body
+    3300004: Bolts.001_Bolts.001
+    3300006: Bolts_Bolts
+    3300008: Engine1_Engine1
+    3300010: Engine2_Engine2
+    3300012: EngineBody_EngineBody
+    3300014: Latches_Latches
+    3300016: Pads_Pads
+    3300018: Wires_Wires
+    3300020: WiresPort2_WiresPort2
+    3300022: WiresPort_Group11942.001_WiresPort_Group11942.001
+    4300000: Barrels_Barrels
+    4300002: Body_Body
+    4300004: Bolts.001_Bolts.001
+    4300006: Bolts_Bolts
+    4300008: Engine1_Engine1
+    4300010: Engine2_Engine2
+    4300012: EngineBody_EngineBody
+    4300014: Latches_Latches
+    4300016: Pads_Pads
+    4300018: Wires_Wires
+    4300020: WiresPort2_WiresPort2
+    4300022: WiresPort_Group11942.001_WiresPort_Group11942.001
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Barrels_BarrelsMat
+    second: {fileID: 2100000, guid: 82deeff294fc25d428c5944b80c6032e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Body_BodyMat
+    second: {fileID: 2100000, guid: 82deeff294fc25d428c5944b80c6032e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Bolts.001_Bolts.001Mat
+    second: {fileID: 2100000, guid: 82deeff294fc25d428c5944b80c6032e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Bolts_BoltsMat
+    second: {fileID: 2100000, guid: 82deeff294fc25d428c5944b80c6032e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Engine1_Engine1Mat
+    second: {fileID: 2100000, guid: 82deeff294fc25d428c5944b80c6032e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Engine2_Engine2Mat
+    second: {fileID: 2100000, guid: 82deeff294fc25d428c5944b80c6032e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: EngineBody_EngineBodyMat
+    second: {fileID: 2100000, guid: 82deeff294fc25d428c5944b80c6032e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Latches_LatchesMat
+    second: {fileID: 2100000, guid: 82deeff294fc25d428c5944b80c6032e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Pads_PadsMat
+    second: {fileID: 2100000, guid: 82deeff294fc25d428c5944b80c6032e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: WiresPort2_WiresPort2Mat
+    second: {fileID: 2100000, guid: 82deeff294fc25d428c5944b80c6032e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: WiresPort_Group11942.001_WiresPort_Group11942.001Mat
+    second: {fileID: 2100000, guid: 82deeff294fc25d428c5944b80c6032e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Wires_WiresMat
+    second: {fileID: 2100000, guid: 82deeff294fc25d428c5944b80c6032e, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
