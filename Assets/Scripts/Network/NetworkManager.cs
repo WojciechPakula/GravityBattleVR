@@ -272,7 +272,7 @@ public class NetworkManager
     //Wysyła obiekt do serwera i serwer wysyła go do wszystkich komputerów łącznie z serwerem. Służy to głównie do traktowania gry jakby była na jakiejś chmurze (czyli model w którym użytkownik nie jest przypisany do stanowiska).
     public void sendToServerToAll(object o)
     {
-        if (networkState == NetworkState.NET_DISABLED || networkState == NetworkState.NET_ENABLED) return;
+        /*if (networkState == NetworkState.NET_DISABLED || networkState == NetworkState.NET_ENABLED) return;
         string json = JsonUtility.ToJson(o);
         QueryPack qp = new QueryPack();
         qp.json = json;
@@ -282,7 +282,47 @@ public class NetworkManager
         QueuePack queue = new QueuePack();
         queue.qp = qp;
         queue.endpoint = serverIp;
-        sendQueue.Enqueue(queue);
+        sendQueue.Enqueue(queue);*/
+        if (networkState == NetworkState.NET_DISABLED || networkState == NetworkState.NET_ENABLED) return;
+        string json = JsonUtility.ToJson(o);
+        QueryPack qp = new QueryPack();
+        qp.json = json;
+        qp.type = o.GetType().FullName;
+        qp.port = port;
+        qp.sendMode = SendMode.SM_TO_SERVER_TO_ALL;
+        QueuePack queue = new QueuePack();
+        queue.qp = qp;
+        //throw new NotImplementedException();
+        switch (networkState)
+        {
+            case NetworkState.NET_SERVER:
+                {
+                    foreach (Computer comp in computers)
+                    {
+                        IPEndPoint ip = comp.ip;
+                        QueuePack tmp = new QueuePack();
+                        tmp.endpoint = ip;
+                        tmp.qp = queue.qp;
+                        if (IPEndPoint.Equals(ip, myIp))
+                        {
+                            receiveQueue.Enqueue(tmp);
+                        } else
+                        {
+                            sendQueue.Enqueue(tmp);
+                        }
+                    }
+                    break;
+                }
+            case NetworkState.NET_CLIENT:
+                {
+                    queue.endpoint = serverIp;
+                    sendQueue.Enqueue(queue);
+                    break;
+                }
+            default:
+                sendQueue.Enqueue(queue);
+                break;
+        }
     }
     //Wysyła obiekt do serwera, jeżeli serwer to wysyła to wyśle sam do siebie.
     public void sendToServer(object o)
@@ -669,7 +709,7 @@ public class NetworkManager
                 }
                 break;
             case SendMode.SM_TO_SERVER_TO_ALL:
-                foreach (Computer comp in computers)
+                /*foreach (Computer comp in computers)
                 {
                     IPEndPoint ip = comp.ip;
                     QueryPack tmp = queuePack.qp;
@@ -678,6 +718,21 @@ public class NetworkManager
                     queue.qp = tmp;
                     queue.endpoint = ip;
                     sendQueue.Enqueue(queue);
+                }*/
+                receiveQueue.Enqueue(queuePack);
+                if (this.networkState == NetworkState.NET_SERVER)
+                {
+                    IPEndPoint source = queuePack.endpoint;
+                    foreach (Computer computer in computers)
+                    {
+                        //if (IPEndPoint.Equals(source, computer.ip) || IPEndPoint.Equals(myIp, computer.ip)) continue;
+                        if (IPEndPoint.Equals(myIp, computer.ip)) continue;
+                        QueuePack tmp2 = new QueuePack();
+                        tmp2.endpoint = computer.ip;
+                        tmp2.qp = queuePack.qp;
+                        tmp2.qp.port = serverIp.Port;
+                        sendQueue.Enqueue(tmp2);
+                    }
                 }
                 break;
             case SendMode.SM_TO_SERVER:

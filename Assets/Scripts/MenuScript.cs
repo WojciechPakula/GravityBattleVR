@@ -72,7 +72,7 @@ public class MenuScript : MonoBehaviour {
     public void testujPolaczenie()
     {
         Debug.Log("H");
-        NetworkManager.instance.sendToAllComputers(new Q_HELLO { text = "komunikat" });
+        NetworkManager.instance.sendToServerToAll(new Q_HELLO { text = "komunikat" });
     }
 
     private void OnDestroy()
