@@ -53,12 +53,26 @@ public class Q_SERVER_INFO : Q_OBJECT   //obiekt zawierający dane o serwerze
     public override void executeQuery(QueuePack queuePack)
     {
         Debug.Log("Q_SERVER_INFO: "+ serverName+"\t"+ numberOfPlayers);
-        GameObject gameObject = GameObject.Find("GameObject");
-        Test test = gameObject.GetComponent<Test>();
+        GameObject gameObject = GameObject.Find("MenuScriptObject");
+        MenuScript test = gameObject.GetComponent<MenuScript>();
         if (test != null)
             test.ip = queuePack.endpoint;
     }
 }
+/*[Serializable]
+public class Q_SERVER_INFO : Q_OBJECT   //obiekt zawierający dane o serwerze
+{
+    public string serverName;
+    public int numberOfPlayers;
+    public override void executeQuery(QueuePack queuePack)
+    {
+        Debug.Log("Q_SERVER_INFO: " + serverName + "\t" + numberOfPlayers);
+        GameObject gameObject = GameObject.Find("Tester");
+        Test test = gameObject.GetComponent<Test>();
+        if (test != null)
+            test.ip = queuePack.endpoint;
+    }
+}*/
 [Serializable]
 public class Q_HELLO : Q_OBJECT   //obiekt do testowania
 {

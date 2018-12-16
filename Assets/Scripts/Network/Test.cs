@@ -39,8 +39,7 @@ public class Test : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.B))
         {
             Debug.Log("B");
-            var o = new Q_SERVER_INFO_REQUEST();
-            NetworkManager.instance.sendBroadcast(o);
+            NetworkManager.instance.sendBroadcast(new Q_SERVER_INFO_REQUEST());
         }
         if (Input.GetKeyDown(KeyCode.H))
         {
