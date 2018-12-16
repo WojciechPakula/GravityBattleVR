@@ -24,6 +24,7 @@ public class MenuScript : MonoBehaviour {
         {
             ipText.text = "brak";
         }
+        if (NetworkManager.instance.getNetworkState() == NetworkState.NET_SERVER) ipText.text = "AKTYWNY SERWER";
     }
 
     public void loadHTCvive()
