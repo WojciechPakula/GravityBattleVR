@@ -3,30 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Mass : MonoBehaviour {
-    public float _mass;
-    public float promien;
+    public float mass;
+    public float _promien;
 
     public float rs { get; private set; }
     public float rf { get; private set; }
 
-    public float mass
+    public float promien
     {
-        get { return _mass; }
-        set {
-            _mass = value;
-            rs = 2 * _mass * (float)PhotonPhysics.G / (float)(PhotonPhysics.c * PhotonPhysics.c);
-            rf = 3 * _mass * (float)PhotonPhysics.G / (float)(PhotonPhysics.c * PhotonPhysics.c);
+        get { return _promien; }
+        set
+        {
+            _promien = value;
+            rs = _promien;
+            rf = _promien * 3.0f / 2.0f;
+            mass = rs/(2.0f*(float)PhotonPhysics.G)*((float)(PhotonPhysics.c * PhotonPhysics.c));
         }
     }
 
     // Use this for initialization
     void Awake () {
-        mass = _mass;//return;
+        mass = rs / (2.0f * (float)PhotonPhysics.G) * ((float)(PhotonPhysics.c * PhotonPhysics.c));//return;
     }
 
 	// Update is called once per frame
 	void Update () {
-        promien = rs;
+        promien = _promien;
         this.transform.localScale = new Vector3(promien*2, promien*2, promien*2);
     }
 

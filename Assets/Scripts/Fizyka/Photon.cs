@@ -23,16 +23,16 @@ public class Photon : MonoBehaviour {
 
     public void Update()
     {
-        float dt = 100.0f * 0.01f * 22 / 2 / 2 / 2 / 1000;   //podstawa czasu musi być identyczna przy każdej iteracji
-        lifeTime += dt;
-        if (lifeTime > 2) Destroy(this.gameObject);
+        float dt = 100.0f * 0.01f * 22 / 2 / 2 / 2 / 100;   //podstawa czasu musi być identyczna przy każdej iteracji
+        lifeTime += Time.deltaTime;
+        if (lifeTime > 7) Destroy(this.gameObject);
         if (locker) return;
         if (transform.position.magnitude > 100) locker = true;
 
         Mass[] masses = FindObjectsOfType<Mass>();
         bool outLocker;
         
-        for (int i = 0; i < 100; ++i)
+        for (int i = 0; i < 10; ++i)
         {
             if (locker)
             {

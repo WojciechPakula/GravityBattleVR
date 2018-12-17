@@ -22,10 +22,15 @@ public abstract class PhotonPhysics {
                 outLocker = true;
                 return;
             }
+            if ((Vector3d.d_to_f(position) - obj.transform.position).magnitude < obj.rs)
+            {
+                outLocker = true;
+            }
         }
         outMomentum += delta;
         outPosition += outMomentum * dt;
         outMomentum.Normalize();
+        
     }
 
     //pozycja, masa, predkosc, czas
@@ -33,7 +38,7 @@ public abstract class PhotonPhysics {
     {
         double m = 0;
         double r = 0;
-        double eventLocker = 0.005;
+        double eventLocker = 0.05;
 
         Vector2d vv = cartesianToSphericalD(p, momentum, dt, Vector3d.f_to_d(obj.transform.position)) / dt;
         if (vv.x == 0 && vv.y == 0) return Vector3d.zero;
