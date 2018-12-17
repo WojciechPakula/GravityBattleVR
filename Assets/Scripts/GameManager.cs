@@ -6,14 +6,59 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager instance = null;   //instancja
     public Camera camera;
+
+    public Vector3 pos1;
+    public Quaternion qa1;
+    public Vector3 pos2;
+    public Quaternion qa2;
+
+    public GameObject p1;
+    public GameObject p2;
+
     // Use this for initialization
     void Start () {
         Application.runInBackground = true;
         instance = this.GetComponent<GameManager>();
+        pos1 = p1.transform.position;
+        qa1 = p1.transform.rotation;
+        pos2 = p2.transform.position;
+        qa2 = p2.transform.rotation;
     }
+
 	
 	// Update is called once per frame
 	void Update () {
+        float visibleOffset = 2f;
+        //if ((p1.transform.position - camera.transform.position).magnitude < visibleOffset) p1.GetComponent<MeshRenderer>().enabled = false; else p1.GetComponent<MeshRenderer>().enabled = true;
+        //if ((p2.transform.position - camera.transform.position).magnitude < visibleOffset) p2.GetComponent<MeshRenderer>().enabled = false; else p2.GetComponent<MeshRenderer>().enabled = true;
+
+        if (NetworkManager.instance.getNetworkState() == NetworkState.NET_SERVER) {
+            p1.GetComponent<MeshRenderer>().enabled = false;
+            pos1 = camera.transform.position;
+            qa1 = camera.transform.rotation;
+            var q = new Q_SET_PLAYER_AVATAR();
+            q.position = pos1;
+            q.qa = qa1;
+            q.type = 1;
+            NetworkManager.instance.sendToAllComputers(q);
+        } else p1.GetComponent<MeshRenderer>().enabled = true;
+        if (NetworkManager.instance.getNetworkState() == NetworkState.NET_CLIENT) {
+            p2.GetComponent<MeshRenderer>().enabled = false;
+            pos2 = camera.transform.position;
+            qa2 = camera.transform.rotation;
+            var q = new Q_SET_PLAYER_AVATAR();
+            q.position = pos2;
+            q.qa = qa2;
+            q.type = 2;
+            NetworkManager.instance.sendToAllComputers(q);
+        } else p2.GetComponent<MeshRenderer>().enabled = true;
+
+        p1.transform.position = Vector3.Lerp(p1.transform.position, pos1, 20.0f * Time.deltaTime);
+        p2.transform.position = Vector3.Lerp(p2.transform.position, pos2, 20.0f * Time.deltaTime);
+
+        try { p1.transform.rotation = Quaternion.Lerp(p1.transform.rotation, qa1, 20.0f * Time.deltaTime); } catch { }
+        try { p2.transform.rotation = Quaternion.Lerp(p2.transform.rotation, qa2, 20.0f * Time.deltaTime); } catch { }
+        
         NetworkManager.instance.update();
         if (Input.GetKeyDown(KeyCode.H))
         {

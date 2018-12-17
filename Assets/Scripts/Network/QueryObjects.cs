@@ -25,6 +25,7 @@ public abstract class Q_OBJECT
         if (type == "Q_IM_ALIVE_RESPONSE") { return JsonUtility.FromJson<Q_IM_ALIVE_RESPONSE>(json); }
         if (type == "Q_SHOOT_PHOTON") { return JsonUtility.FromJson<Q_SHOOT_PHOTON>(json); }
         if (type == "Q_SPAWN_BLACKHOLE") { return JsonUtility.FromJson<Q_SPAWN_BLACKHOLE>(json); }
+        if (type == "Q_SET_PLAYER_AVATAR") { return JsonUtility.FromJson<Q_SET_PLAYER_AVATAR>(json); }
 
         //na wypadek błędu
         Debug.Log("Q_OBJECT ERROR, Nieznany typ "+type.ToString());
@@ -166,5 +167,31 @@ public class Q_SPAWN_BLACKHOLE : Q_OBJECT   //obiekt oznaczający że komputer n
     {
         Debug.Log("Q_SPAWN_BLACKHOLE done.");
         GameManager.instance.placeBlackHole(position,radius);
+    }
+}
+[Serializable]
+public class Q_SET_PLAYER_AVATAR : Q_OBJECT   //obiekt oznaczający że komputer nie umarł
+{
+    public Vector3 position;
+    public Quaternion qa;
+    public int type;
+    public override void executeQuery(QueuePack queuePack)
+    {
+        try
+        {
+            if (type == 1)
+            {
+                GameManager.instance.pos1 = position;
+                GameManager.instance.qa1 = qa;
+            }
+            if (type == 2)
+            {
+                GameManager.instance.pos2 = position;
+                GameManager.instance.qa2 = qa;
+            }
+        } catch
+        {
+
+        }
     }
 }
