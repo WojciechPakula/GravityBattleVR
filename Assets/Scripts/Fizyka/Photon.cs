@@ -6,11 +6,9 @@ public class Photon : MonoBehaviour {
     public Vector3d momentumD = new Vector3d(0, 0, 1);
     public Vector3d positionD;
     LineRenderer lr;
-    //Color c;
 
     public void setColor(Color col)
     {
-        //c = col;
         var tmp = lr.material.GetColor("_TintColor");
         lr.material.SetColor("_TintColor", col);
         lifeTime = -2;
@@ -28,7 +26,6 @@ public class Photon : MonoBehaviour {
     void Awake () {
         lr = GetComponent<LineRenderer>();
         positionD = Vector3d.f_to_d(transform.position);
-        //c = lr.startColor;
     }
     
     public bool locker = false;
@@ -41,9 +38,6 @@ public class Photon : MonoBehaviour {
         float al = 2-(lifeTime/maxLifeTime)*2;
         if (al > 1) al = 1;
         var tmp = lr.startColor;
-        //tmp.r = c.r;
-        //tmp.g = c.g;
-        //tmp.b = c.b;
         tmp.a = al;
         lr.startColor = tmp;
         lr.endColor = tmp;

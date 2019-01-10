@@ -12,8 +12,28 @@ public class GameManager : MonoBehaviour {
     public Vector3 pos2;
     public Quaternion qa2;
 
+    public cannonScript cannon;
+
     public GameObject p1;
     public GameObject p2;
+
+    public float maxCannonOffset;
+    public float maxCannonEotationOffset;
+
+    GameObject HTC_pilot_position;
+
+    Quaternion zeroRotation;
+
+    void randomCannonPosition()
+    {
+        var rand = Random.Range(-maxCannonOffset, maxCannonOffset);
+        var pos = cannon.transform.position;
+        pos.z = rand;
+        cannon.transform.position = pos;
+
+        var rand2 = Random.Range(-maxCannonEotationOffset, maxCannonEotationOffset);
+        cannon.transform.rotation = Quaternion.Euler(0,rand2,0) * zeroRotation;
+    }
 
     // Use this for initialization
     void Start () {
@@ -23,6 +43,7 @@ public class GameManager : MonoBehaviour {
         qa1 = p1.transform.rotation;
         pos2 = p2.transform.position;
         qa2 = p2.transform.rotation;
+        zeroRotation = cannon.transform.rotation;
     }
 
 	
@@ -65,6 +86,11 @@ public class GameManager : MonoBehaviour {
             Debug.Log("H");
             NetworkManager.instance.sendToAllComputers(new Q_HELLO { text = "komunikat" });
         }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Debug.Log("R");
+            randomCannonPosition();
+        }
 
         RaycastHit hit;
         Ray ray = camera.ScreenPointToRay(Input.mousePosition);
@@ -98,5 +124,15 @@ public class GameManager : MonoBehaviour {
         var ms = f.GetComponent<Mass>();
         f.transform.position = position;
         ms.promien = r;
+    }
+
+    public void HTCbuttonClick()
+    {
+        placeBlackHole(HTC_pilot_position.transform.position, 0.6f);
+    }
+
+    public void HTCsetPilotPosition(Vector3 pilot)
+    {
+        HTC_pilot_position.transform.position = pilot;
     }
 }
