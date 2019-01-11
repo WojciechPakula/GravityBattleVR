@@ -28,6 +28,7 @@ public abstract class Q_OBJECT
         if (type == "Q_SET_PLAYER_AVATAR") { return JsonUtility.FromJson<Q_SET_PLAYER_AVATAR>(json); }
         if (type == "Q_SET_CANNON_POSITION") { return JsonUtility.FromJson<Q_SET_CANNON_POSITION>(json); }
         if (type == "Q_RUN_ROUND") { return JsonUtility.FromJson<Q_RUN_ROUND>(json); }
+        if (type == "Q_SEND_SCORE") { return JsonUtility.FromJson<Q_SEND_SCORE>(json); }
         
         //na wypadek błędu
         Debug.Log("Q_OBJECT ERROR, Nieznany typ "+type.ToString());
@@ -224,6 +225,23 @@ public class Q_RUN_ROUND : Q_OBJECT   //obiekt oznaczający że komputer nie uma
         try
         {
             GameManager.instance.startCannonRemote();
+        }
+        catch
+        {
+
+        }
+    }
+}
+[Serializable]
+public class Q_SEND_SCORE : Q_OBJECT   //obiekt oznaczający że komputer nie umarł
+{
+    public int a;
+    public int b;
+    public override void executeQuery(QueuePack queuePack)
+    {
+        try
+        {
+            GameManager.instance.setScore(a,b);
         }
         catch
         {

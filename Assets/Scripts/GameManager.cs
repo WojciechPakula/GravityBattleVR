@@ -20,9 +20,10 @@ public class GameManager : MonoBehaviour {
     public float maxCannonOffset;
     public float maxCannonEotationOffset;
 
-    GameObject HTC_pilot_position;
+    GameObject HTC_pilot_position = null;
 
     Quaternion zeroRotation;
+    Vector3 zeroPosition;
 
     public TextMesh textScoreA;
     public TextMesh textScoreB;
@@ -34,12 +35,20 @@ public class GameManager : MonoBehaviour {
 
     void randomCannonPosition()
     {
+        if (!getPlayerPermissions()) return;
         var rand = Random.Range(-maxCannonOffset, maxCannonOffset);
-        var pos = cannon.transform.position;
+        var pos = zeroPosition;
         pos.z = rand;
 
         var rand2 = Random.Range(-maxCannonEotationOffset, maxCannonEotationOffset);
         Quaternion rot = Quaternion.Euler(0,rand2,0) * zeroRotation;
+
+        float rand3 = Random.value;
+        if (rand3 > 0.5f)
+        {
+            pos.x *= -1;
+            rot = Quaternion.Euler(0, rand2+180, 0) * zeroRotation;
+        }
 
         var q = new Q_SET_CANNON_POSITION();
         q.qa = rot;
@@ -47,6 +56,12 @@ public class GameManager : MonoBehaviour {
         NetworkManager.instance.sendToAllComputers(q);
 
         setCannonPosition(pos, rot);
+    }
+
+    public void setScore(int a, int b)
+    {
+        gateA.score = a;
+        gateB.score = b;
     }
 
     public void setCannonPosition(Vector3 pos, Quaternion rot)
@@ -64,6 +79,7 @@ public class GameManager : MonoBehaviour {
         pos2 = p2.transform.position;
         qa2 = p2.transform.rotation;
         zeroRotation = cannon.transform.rotation;
+        zeroPosition = cannon.transform.position;
         gameInit();
     }
 
@@ -98,17 +114,23 @@ public class GameManager : MonoBehaviour {
             round++;
             removeBlackHoles();
         }
-        randomCannonPosition();
         setPlayerText();
+        randomCannonPosition();
     }
 
     void endTurn()
     {
         turnTrigger = false;
+        if (getPlayerPermissions())
+        {
+            var q = new Q_SEND_SCORE();
+            q.a = gateA.score;
+            q.b = gateB.score;
+            NetworkManager.instance.sendToAllComputers(q);
+        }
         nextTurn();
     }
-
-    int swap=0;
+    
     int playerId = 0;
     int round = 1;
     int availableBlackHoles = 0;
@@ -127,11 +149,26 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    //ta metoda mowi czy gracz ma swoja ture, jak tak to może wykonywać niektóre czynności, blokada nie istnieje w trybie jednego gracza.
+    bool getPlayerPermissions()
+    {
+        if (NetworkManager.instance.getNetworkState() == NetworkState.NET_SERVER && playerId == 0)
+            return true;
+        else if (NetworkManager.instance.getNetworkState() == NetworkState.NET_CLIENT && playerId == 1)
+            return true;
+        else if (NetworkManager.instance.getNetworkState() == NetworkState.NET_DISABLED || NetworkManager.instance.getNetworkState() == NetworkState.NET_ENABLED)
+            return true;
+        return false;
+    }
+
     int bulletStreamDelay = 0;
     bool turnTrigger = false;
     public void startCannon()
     {
         if (turnTrigger == true) return;
+
+        if (!getPlayerPermissions()) return;
+        
         cannon.bullets = 100;   //wystrzeliwuje 100 pocisków
         bulletStreamDelay = 100;
         turnTrigger = true;
@@ -150,7 +187,7 @@ public class GameManager : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         if (bulletStreamDelay > 0) bulletStreamDelay--;
-        float visibleOffset = 2f;
+        //float visibleOffset = 2f;
         //if ((p1.transform.position - camera.transform.position).magnitude < visibleOffset) p1.GetComponent<MeshRenderer>().enabled = false; else p1.GetComponent<MeshRenderer>().enabled = true;
         //if ((p2.transform.position - camera.transform.position).magnitude < visibleOffset) p2.GetComponent<MeshRenderer>().enabled = false; else p2.GetComponent<MeshRenderer>().enabled = true;
 
@@ -187,20 +224,15 @@ public class GameManager : MonoBehaviour {
             Debug.Log("H");
             NetworkManager.instance.sendToAllComputers(new Q_HELLO { text = "komunikat" });
         }
-        if (Input.GetKeyDown(KeyCode.R))
+        /*if (Input.GetKeyDown(KeyCode.R))
         {
             Debug.Log("R");
             randomCannonPosition();
-        }
+        }*/
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (NetworkManager.instance.getNetworkState() == NetworkState.NET_SERVER && playerId == 0)
-                startCannon();
-            else if (NetworkManager.instance.getNetworkState() == NetworkState.NET_CLIENT && playerId == 1)
-                startCannon();
-            else if (NetworkManager.instance.getNetworkState() == NetworkState.NET_DISABLED || NetworkManager.instance.getNetworkState() == NetworkState.NET_ENABLED)
-                startCannon();
+             startCannon();
         }
 
         RaycastHit hit;
@@ -212,15 +244,8 @@ public class GameManager : MonoBehaviour {
             {
                 if (Input.GetMouseButtonDown(0) && turnTrigger == false)
                 {
-                    bool fail = true;
-                    if (NetworkManager.instance.getNetworkState() == NetworkState.NET_SERVER && playerId == 0)
-                        fail = false;
-                    else if (NetworkManager.instance.getNetworkState() == NetworkState.NET_CLIENT && playerId == 1)
-                        fail = false;
-                    else if (NetworkManager.instance.getNetworkState() == NetworkState.NET_DISABLED || NetworkManager.instance.getNetworkState() == NetworkState.NET_ENABLED)
-                        fail = false;
 
-                    if (availableBlackHoles > 0 && !fail)
+                    if (availableBlackHoles > 0 && getPlayerPermissions())
                     {
                         availableBlackHoles--;
                         Debug.Log(hit.point);
@@ -258,11 +283,37 @@ public class GameManager : MonoBehaviour {
         ms.promien = r;
     }
 
+    //postawienie dziury w miejscu gdzie został ustawiony kursor (to miejsce zostanie automatycznie dopasowane w osi y do siatki y=0)
     public void HTCbuttonClick()
     {
-        placeBlackHole(HTC_pilot_position.transform.position, 0.6f);
+        if (turnTrigger == false)
+        {
+            if (availableBlackHoles > 0 && getPlayerPermissions())
+            {
+                availableBlackHoles--;
+                float r = 0.6f;
+
+                Vector3 position = HTC_pilot_position.transform.position;
+                position.y = 0;
+
+                placeBlackHole(position, r);
+
+                var q = new Q_SPAWN_BLACKHOLE();
+                q.position = position;
+                q.radius = r;
+                NetworkManager.instance.sendToAllComputers(q);
+            }
+        }
     }
 
+    //zatwierdzenie ruchu, wykonanie swojej tury, wystrzelenie z działa.
+    public void HTCactivateCannon()
+    {
+        startCannon();
+    }
+
+    //informuje grę gdzie jest kursor, może to być pozycja pilota, albo pozycja lasera który wychodzi z pilota i uderza w GhostPlane (trzeba by było to zrobić xd)
+    //ta pozycja oznacza gdzie pojawi się dziura po wywołaniu HTCbuttonClick();
     public void HTCsetPilotPosition(Vector3 pilot)
     {
         HTC_pilot_position.transform.position = pilot;
