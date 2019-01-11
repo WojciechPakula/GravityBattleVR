@@ -8,10 +8,12 @@ public class cannonScript : MonoBehaviour {
     void Start () {
 		
 	}
-	
+
+    public int bullets = 0;
+
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKey(KeyCode.Space))
+        if (/*Input.GetKey(KeyCode.Space) || */bullets > 0)
         {
             var dir = new Vector3(0,-1,0);
 
@@ -26,6 +28,8 @@ public class cannonScript : MonoBehaviour {
             q.position = transform.position;
             NetworkManager.instance.sendToAllComputers(q);
             PhotonEmitter.emitPhoton(transform.position, dir);
+            bullets--;
+            if (bullets < 0) bullets = 0;
         }
 	}
 
@@ -34,8 +38,7 @@ public class cannonScript : MonoBehaviour {
         float mean = 0;
         float u1 = 1.0f - Random.value; //uniform(0,1] random doubles
         float u2 = 1.0f - Random.value;
-        float randStdNormal = Mathf.Sqrt(-2.0f * Mathf.Log(u1)) *
-                     Mathf.Sin(2.0f * Mathf.PI * u2); //random normal(0,1)
+        float randStdNormal = Mathf.Sqrt(-2.0f * Mathf.Log(u1)) * Mathf.Sin(2.0f * Mathf.PI * u2); //random normal(0,1)
         return mean + dispersion * randStdNormal; //random normal(mean,stdDev^2)
     }
 }

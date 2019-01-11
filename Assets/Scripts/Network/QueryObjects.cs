@@ -26,7 +26,9 @@ public abstract class Q_OBJECT
         if (type == "Q_SHOOT_PHOTON") { return JsonUtility.FromJson<Q_SHOOT_PHOTON>(json); }
         if (type == "Q_SPAWN_BLACKHOLE") { return JsonUtility.FromJson<Q_SPAWN_BLACKHOLE>(json); }
         if (type == "Q_SET_PLAYER_AVATAR") { return JsonUtility.FromJson<Q_SET_PLAYER_AVATAR>(json); }
-
+        if (type == "Q_SET_CANNON_POSITION") { return JsonUtility.FromJson<Q_SET_CANNON_POSITION>(json); }
+        if (type == "Q_RUN_ROUND") { return JsonUtility.FromJson<Q_RUN_ROUND>(json); }
+        
         //na wypadek błędu
         Debug.Log("Q_OBJECT ERROR, Nieznany typ "+type.ToString());
         Debug.Log("Zapomniałeś dopisać tą linię kodu w Q_OBJECT");
@@ -190,6 +192,40 @@ public class Q_SET_PLAYER_AVATAR : Q_OBJECT   //obiekt oznaczający że komputer
                 GameManager.instance.qa2 = qa;
             }
         } catch
+        {
+
+        }
+    }
+}
+[Serializable]
+public class Q_SET_CANNON_POSITION : Q_OBJECT   //obiekt oznaczający że komputer nie umarł
+{
+    public Vector3 position;
+    public Quaternion qa;
+    public override void executeQuery(QueuePack queuePack)
+    {
+        try
+        {
+
+            GameManager.instance.setCannonPosition(position, qa);
+            
+        }
+        catch
+        {
+
+        }
+    }
+}
+[Serializable]
+public class Q_RUN_ROUND : Q_OBJECT   //obiekt oznaczający że komputer nie umarł
+{
+    public override void executeQuery(QueuePack queuePack)
+    {
+        try
+        {
+            GameManager.instance.startCannonRemote();
+        }
+        catch
         {
 
         }

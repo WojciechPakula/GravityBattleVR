@@ -3,10 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Gate : MonoBehaviour {
+    public int score = 0;
     void OnTriggerEnter(Collider other)
     {
-        var ph = other.gameObject.GetComponent<Photon>();
-        ph.setColor(Color.white);
+        try
+        {
+            var ph = other.gameObject.GetComponent<Photon>();
+            ph.setColor(Color.white);
+            score++;
+        } catch
+        {
+
+        }
     }
 
     void Update()

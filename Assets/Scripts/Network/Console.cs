@@ -20,7 +20,7 @@ public class Console : MonoBehaviour
 
     List<Log> logs = new List<Log>();
     Vector2 scrollPosition;
-    bool show = true;
+    bool show = false;
     bool collapse;
 
     // Visual elements:
