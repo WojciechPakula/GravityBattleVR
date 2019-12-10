@@ -7,4 +7,5 @@ Celem projektu jest utworzenie aplikacji będącej dwuosobową, kosmiczną grą 
 
 ## Obrazy
 
-![Test Image](/Assets/Pictures/logoVR.png)
+![Image1](/Assets/Pictures/logoVR.png)
+![Image2](/Assets/Pictures/gbvr.png)
